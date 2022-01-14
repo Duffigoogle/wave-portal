@@ -1,10 +1,45 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "/Users/faith/Documents/my-wave-portal/contracts/Greeter.sol": {
-      "lastModificationDate": 1642072842979,
-      "contentHash": "54c28c84e5277b35b8c8329ce9755dae",
-      "sourceName": "contracts/Greeter.sol",
+    "/Users/faith/Documents/my-wave-portal/node_modules/hardhat/console.sol": {
+      "lastModificationDate": 1642002763663,
+      "contentHash": "cc4777addd464ea56fa35b1c45df0591",
+      "sourceName": "hardhat/console.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.4.22 <0.9.0"
+      ],
+      "artifacts": [
+        "console"
+      ]
+    },
+    "/Users/faith/Documents/GitHub/wave-portal/contracts/WavePortals.sol": {
+      "lastModificationDate": 1642107473774,
+      "contentHash": "63e42399a6c279d23ce8ab0765e19309",
+      "sourceName": "contracts/WavePortals.sol",
       "solcConfig": {
         "version": "0.8.4",
         "settings": {
@@ -35,11 +70,11 @@
         "^0.8.0"
       ],
       "artifacts": [
-        "Greeter"
+        "WavePortal"
       ]
     },
-    "/Users/faith/Documents/my-wave-portal/node_modules/hardhat/console.sol": {
-      "lastModificationDate": 1642002763663,
+    "/Users/faith/Documents/GitHub/wave-portal/node_modules/hardhat/console.sol": {
+      "lastModificationDate": 1642075892572,
       "contentHash": "cc4777addd464ea56fa35b1c45df0591",
       "sourceName": "hardhat/console.sol",
       "solcConfig": {
