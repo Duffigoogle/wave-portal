@@ -37,8 +37,8 @@
       ]
     },
     "/Users/faith/Documents/GitHub/wave-portal/contracts/WavePortals.sol": {
-      "lastModificationDate": 1642107473774,
-      "contentHash": "63e42399a6c279d23ce8ab0765e19309",
+      "lastModificationDate": 1642422002182,
+      "contentHash": "b9520af055cfa4adf1e9fa926a120919",
       "sourceName": "contracts/WavePortals.sol",
       "solcConfig": {
         "version": "0.8.4",
