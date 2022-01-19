@@ -19,11 +19,14 @@ const main = async () => {
     console.log(waveCount.toNumber());
 
     // let's send a few waves!
-    let waveTxn = await waveContract.wave();
+    const waveTxn = await waveContract.wave();
     await waveTxn.wait(); // Wait for the transaction to be mined
 
-    waveTxn = await waveContract.connect(randomPerson).wave();
-    await waveTxn.wait(); // Wait for the transaction to be mined
+    const waveTxn2 = await waveContract.wave();
+    await waveTxn2.wait(); // Wait for the transaction to be mined
+
+    // waveTxn = await waveContract.connect(randomPerson).wave();
+    // await waveTxn.wait(); // Wait for the transaction to be mined
 
     contractBalance = await hre.ethers.provider.getBalance(waveContract.address);
     console.log(
@@ -53,6 +56,7 @@ const main = async () => {
   // Let's send a few hugs!
   const hugTxn = await waveContract.hug("A message for hug1 !");
   await hugTxn.wait(); // Wait for the transaction to be mined
+
   const hugTxn2 = await waveContract.hug("A message for hug 2!");
   await hugTxn2.wait(); // Wait for the transaction to be mined
 
