@@ -1,0 +1,139 @@
+.mainContainer {
+  width: 100%;
+  background: url("./img/hug_bg.jpeg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+  /* margin-top: 50px; */
+  /* align-items: center; */
+}
+
+h1 {
+   font-family: Arial;
+    color:  #FFF;
+    font-size: 90px;
+    padding: 20px 30px;
+    text-shadow: 2px 2px rgba(0,0,0,0.3);
+    text-transform: uppercase;
+}
+
+
+.dataContainer {
+  max-width: 1000px;
+  margin: 0px auto;
+  background-color: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 15px;
+  padding: 32px;
+  backdrop-filter: blur(10px);
+}
+
+.header {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.bio {
+  text-align: center;
+  color: gray;
+  margin: 10px auto;
+  max-width: 500px;
+}
+
+.details {
+  text-align: center;
+  color: gray;
+  margin-top: 5px;
+}
+
+.waveButton {
+  cursor: pointer;
+  margin: 16px auto;
+  padding: 8px;
+  border: 0;
+  border-radius: 5px;
+  background-color: orange;
+  width: 250px;
+  
+}
+
+.text_h3 {
+  text-align: center;
+}
+
+.connectButton {
+  cursor: pointer;
+  margin: 16px auto;
+  padding: 10px;
+  border: 0;
+  border-radius: 5px;
+  width: 250px;
+  background-color: #3c1053ff;
+  color: #fff;
+}
+
+.text_medium {
+  font-size: 18px;
+  color: #fff;
+}
+.text_big {
+  font-size: 26px;
+  font-weight: 800;
+  color: #ff6103;
+}
+
+.text_sml {
+  color: #fff;
+}
+
+span {
+  letter-spacing: 1.3px;
+  font-style: italic;
+  font-size: 45px;
+}
+
+.span_hug_txt {
+  color: darkmagenta;
+  font-size: 12px;
+}
+.span_wav_txt {
+  color: orangered;
+  font-size: 12px;
+}
+
+#message {
+  width: 500px;
+  height: 50px;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  resize: none;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+  
+textarea::placeholder {
+    font-size: 15px;
+    color: orangered;
+}
+
+
+.hugSection {
+  border: 1px solid black;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.wave_hug_container {
+  display: flex;
+  flex-wrap: wrap;
+}
