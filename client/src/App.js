@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import './App.css';
-
-import ABI from './utils/WavePortal';
-import ABI from '../../artifacts/contracts/WavePortals.sol/WavePortal.json';
-import HUGGY from '../public/img/hugggyy.gif'
-import WAVVY from '../public/img/wavehand.gif';
+import ABI from './utils/WavePortal.json';
+import HUGGY from './img/hugggyy.gif';
+import WAVVY from './img/wavehand.gif';
+import WalletModal from './components/modal';
 
 export default function App() {
 
@@ -16,11 +15,16 @@ export default function App() {
   /*
   * Just a state variable we use to store our user's public wallet.
   */
+
+  const [isMetaMaskInstalled, setIsMetaMaskInstalled] = useState(true);
   const [currentAccount, setCurrentAccount] = useState("");
   const [isConnected, setIsConnected] = useState(false);
+  const [isConnecting, setIsConnecting] = useState(false);
+
   const [allWaves, setAllWaves] = useState([]);
   const [allHugs, setAllHugs] = useState([]);
   const [textValue, setTextValue] = useState("");
+  const [showWalletModal, setShowWalletModal] = useState(false);
 
 
   const checkIfWalletIsConnected = async () => {
@@ -54,6 +58,11 @@ export default function App() {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  const launchWalletModal = () => {
+    setShowWalletModal(!showWalletModal);
+    setIsConnecting(!isConnecting);
   }
 
   /**
@@ -282,21 +291,40 @@ useEffect(() => {
 }, [])
 
   return (
+    <>
+    {isMetaMaskInstalled && (
     <div className="mainContainer">
-      <h1>WAVVY & HUGGY</h1>
+      <div className='header'>
+        <div className='header_cont'>
+          <a href='https://www.google.com' target="_blank" without rel="noopener noreferrer">
+            <h3 className='title'>W
+              <span className='dots'></span>
+              <span className='dots'></span>
+              <span className='title-span'>H</span>
+            </h3>
+          </a>
+          <div className='nav'>
+            <button className='btn' onClick={launchWalletModal}>
+              {!isConnecting && "Connect Wallet"}
+               {isConnecting && "Connecting...."}
+            </button>
+          </div>
+        </div>
+      </div>
 
       <div className="dataContainer">
-        <div className="header">
-          👋 Hey Beautiful Soul!
+         <h1>WAVY & HUGGY</h1>
+        <div className="header-sub">
+         <span role='img'> 👋 </span> Hey Beautiful Soul!
         </div>
 
         <div className="bio">
-          <p className="text_medium">I am Caleb Duff, a blockchain enthusiast and I love Tech, Traveling and Space Travel. Also, I love debugging and giving hugs; that's pretty cool right?
+          <p className="text_medium">I am Duffigoogle, a blockchain enthusiast and I love Tech, Traveling and Space Travel. Also, I love debugging and giving hugs; that's pretty cool right?
         </p>
         </div>
 
         <div className="details">
-          <p className="text_big">Goddamnit! <br /> <span>HUGS</span> <br /> are therapeutic...</p>
+          <p className="text_big">Goddamnit! <br /> <span className='hug-text'>HUGS</span> <br /> are therapeutic...</p>
           <p className="text_sml">Connect your Ethereum wallet to wave at me OR send me a hug. <br/> And stand a chance to win some ETH</p>
 
           {isConnected && (
@@ -305,7 +333,8 @@ useEffect(() => {
                 Wave at Me! &nbsp;
                 <img src={WAVVY}
                     height="20px"
-                    width="20px" />
+                    width="20px" 
+                    alt='wavvy'/>
               </button>
               <br />
               <div className='hugSection'>
@@ -319,7 +348,8 @@ useEffect(() => {
                   Send Me a HUG &nbsp;
                   <img src={HUGGY}
                     height="20px"
-                    width="20px" />
+                    width="20px" 
+                    alt='huggy'/>
                 </button>
               </div>
               <div className='wave_hug_container'>
@@ -333,7 +363,8 @@ useEffect(() => {
                 <div>
                   <img src={WAVVY}
                     height="45px"
-                    width="45px" />
+                    width="45px"
+                    alt='wavvy' />
                 </div>
                 <div style={{
                 backgroundColor: "#cec"}}>
@@ -354,7 +385,7 @@ useEffect(() => {
                 alignContent: "center",
               }}>
                 <div>
-                  <img src={HUGGY} height="100px" />
+                  <img src={HUGGY} height="100px" alt='huggy'/>
                 </div>
                 <div style={{
                 backgroundColor: '#d39bcb'}}>
@@ -373,12 +404,31 @@ useEffect(() => {
         * If there is no currentAccount render this button
         */}
           {!currentAccount && (
-            <button className="waveButton" onClick={connectApp}>
-              Connect Wallet ...
+            <button className="waveButton" onClick={launchWalletModal}>
+               {!isConnecting && "Connect Wallet"}
+               {isConnecting && "Connecting..."}
           </button>
           )}
         </div>
       </div>
+      {showWalletModal && (
+            <WalletModal
+              showWalletModal={showWalletModal}
+              setShowWalletModal={setShowWalletModal}
+              connectApp={connectApp}
+            />
+          )}
     </div>
+    )}
+    {!isMetaMaskInstalled && (
+      <div>
+        <p className="start_page">
+          <a href="https://metamask.io/" target="_blank" rel="noreferrer">
+            Install MetaMask
+          </a>
+        </p>
+      </div>
+    )}
+   </>
   );
 }
