@@ -1,9 +1,9 @@
 import  React, { useEffect, useRef } from "react";
 // import Link from "next/link";
 // import Web3 from "web3";
-// import Icon from "../common/Icons";
+import Icon from "./icons/icon";
 
-const WalletModal = ({showWalletModal, setShowWalletModal, connectApp }) => {
+const WalletModal = ({showWalletModal, setShowWalletModal, connectApp, setIsConnecting, isConnecting }) => {
   const ref = useRef();
 
   useEffect(() => {
@@ -11,6 +11,7 @@ const WalletModal = ({showWalletModal, setShowWalletModal, connectApp }) => {
       // If the menu is open and the clicked target is not within the menu,
       if (showWalletModal && ref.current && !ref.current.contains(e.target)) {
         setShowWalletModal(false);
+        setIsConnecting(!isConnecting);
       }
     };
     document.addEventListener("mousedown", checkIfClickedOutside);
@@ -24,28 +25,35 @@ const WalletModal = ({showWalletModal, setShowWalletModal, connectApp }) => {
   return ( 
     <div className="select_wallet_modal_overlay">
       <div className="select_wallet_modal-container" ref={ref}>
-        <div className="">
-          <div>
-            <p className="font-large">Select a Wallet</p>
+        <div>
+          <div className="modal-top-sect">
+            <p className="font-large">Select Wallet</p>
             <p className="text-smaller">
               Please select a wallet to connect to the dapp:
             </p>
           </div>
           <button
             onClick={connectApp}
-            className="wallet-cont wallet-type flex align-center pl-2 mt-2 w-100"
+            className="wallet-cont"
           >
-            {/* <Icon name="metamask" size={40} /> */}
-            <p className="font-large ml-2"> MetaMask </p>
+            <Icon name="metamask" size={40} />
+            <p className="font-larger"> Metamask </p>
+          </button>
+          <button
+            onClick={connectApp}
+            className="wallet-cont"
+          >
+            <Icon name="walletConnect" size={40} />
+            <p className="font-larger"> ConnectWallet </p>
           </button>
         </div>
-        <div className="mt-5">
-          <p className="text-smaller text-light mb-1">
+        <div className="modal-bottom-sect">
+          <p className="text-smaller">
             New to Ethereum network?
           </p>
             <a href='https://www.google.com'>
               <div className="flex">
-                <p className="text-smaller">
+                <p className="text-smallest">
                   Learn more about Crypto Wallet &nbsp;
                 </p>
               </div>
