@@ -3,7 +3,7 @@ import  React, { useEffect, useRef } from "react";
 // import Web3 from "web3";
 import Icon from "./icons/icon";
 
-const WalletModal = ({showWalletModal, setShowWalletModal, connectApp, setIsConnecting, isConnecting }) => {
+const WalletModal = ({showWalletModal, setShowWalletModal, connectApp, setIsConnecting, isConnecting, setConnection }) => {
   const ref = useRef();
 
   useEffect(() => {
@@ -12,6 +12,7 @@ const WalletModal = ({showWalletModal, setShowWalletModal, connectApp, setIsConn
       if (showWalletModal && ref.current && !ref.current.contains(e.target)) {
         setShowWalletModal(false);
         setIsConnecting(!isConnecting);
+        setConnection(true);
       }
     };
     document.addEventListener("mousedown", checkIfClickedOutside);

@@ -4,6 +4,9 @@ import "./App.css";
 import ABI from "./utils/WavePortal.json";
 import HUGGY from "./img/hugggyy.gif";
 import WAVVY from "./img/wavehand.gif";
+import GRANDMAHUG from "./img/sister.svg";
+import HESENDWAVE from "./img/heSendWave.png";
+import SHESENDHUG from "./img/sheSendhug.png";
 import WalletModal from "./components/modal";
 
 export default function App() {
@@ -16,15 +19,14 @@ export default function App() {
    */
 
   const [isMetaMaskInstalled, setIsMetaMaskInstalled] = useState(true);
-  const [currentAccount, setCurrentAccount] = useState("");
   const [connect, setConnection] = useState(true);
   const [isConnecting, setIsConnecting] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
-
+  const [showWalletModal, setShowWalletModal] = useState(false);
+  const [currentAccount, setCurrentAccount] = useState("");
   const [allWaves, setAllWaves] = useState([]);
   const [allHugs, setAllHugs] = useState([]);
   const [textValue, setTextValue] = useState("");
-  const [showWalletModal, setShowWalletModal] = useState(false);
 
   const checkIfWalletIsConnected = async () => {
     try {
@@ -51,8 +53,8 @@ export default function App() {
         setCurrentAccount(account);
         setConnection(false);
         setIsConnected(true);
-        // getAllWaves();
-        // getAllHugs();
+        getAllWaves();
+        getAllHugs();
       } else {
         console.log("No authorized account found");
         // setConnection(true);
@@ -125,6 +127,8 @@ export default function App() {
 
         await waveTxn.wait();
         console.log("Mined -- ", waveTxn.hash);
+
+        movingWave();
 
         count = await wavePortalContract.getTotalWaves();
         console.log("Retrieved total wave count...", count.toNumber());
@@ -313,6 +317,16 @@ export default function App() {
     };
   }, []);
 
+  const movingWave = () => {
+    let marginBottom = 0;
+    let marginLeft = 0;
+      setInterval(() => {
+        marginBottom += 10;
+        marginLeft += 4;
+        temple.style.marginBottom = `${marginBottom}px`;
+        temple.style.marginLeft = `${marginLeft}px`;
+      }, 100);
+  }
   /*
    * This runs our function when the page loads.
    */
@@ -344,7 +358,7 @@ export default function App() {
                 {isConnected ? (
                     <div className="header_content-right">
                     <p className="acct-text">
-                      <span className='span_acct_text'> Connected Acct:</span> {currentAccount?.substring(0, 9)}
+                      <span className='span_acct_text'> Wallet Connected</span> <br />{currentAccount?.substring(0, 9)}
                       {"..."}{" "}
                     </p>
                 </div>
@@ -375,17 +389,13 @@ export default function App() {
 
             <div className="details">
               <div className='theme'>
+                <img src={GRANDMAHUG} alt='grandma hug' width='50%'/>
                   <p className="text_big">
                     Goddamnit! <br /> <span className="hug-text">HUGS</span> {" "}
                     are therapeutic...
                   </p>
               </div>
-              <p className="text_sml">
-                Connect your Ethereum wallet to send me a&nbsp; 
-                <span className='hug_color'>hug</span> OR&nbsp;
-                <span className='wave_color'>wave</span> at me.{" "}
-                <br /> And stand a chance to win some ETH
-              </p>
+              
 
               {isConnected && (
                 <div>
@@ -406,7 +416,7 @@ export default function App() {
                   <br />
                   <button className="waveButton" onClick={wave}>
                     Wave at Me! &nbsp;
-                    <img src={WAVVY} height="20px" width="20px" alt="wavvy" />
+                    <img src={WAVVY} height="20px" width="20px" alt="wavvy" className='temple'/>
                   </button>
 
                   <div className="wave_hug_container">
@@ -493,10 +503,28 @@ export default function App() {
                * If there is no currentAccount render this button
                */}
               {!currentAccount && (
-                <button className="waveButton" onClick={launchWalletModal}>
-                  {connect && "Connect Wallet"}
-                  {isConnecting && "Connecting..."}
-                </button>
+                <>
+                  <p className="text_sml">
+                    Connect your Ethereum wallet to send me a&nbsp; 
+                    <span className='hug_color'>hug</span> OR&nbsp;
+                    <span className='wave_color'>wave</span> at me.{" "}
+                    <br /> And stand a chance to win some ETH
+                  </p>
+                  <section className='connect_wallet_cont_bottom'>
+                    <div className='connect_wallet_img_section'>
+                      <div className='img-box img-box-1'>
+                        <img src={HESENDWAVE} alt='send_wave' width='30%'/>
+                      </div>
+                      <div className='img-box img-box-2'>
+                        <img src={SHESENDHUG} alt='send_hug'    width='30%' style={{transform: 'scaleX(-1)'}}/>
+                      </div>
+                    </div>
+                      <button className="waveButton" onClick={launchWalletModal}>
+                        {connect && "Connect Wallet"}
+                        {isConnecting && "Connecting..."}
+                      </button>
+                  </section>
+                </>
               )}
             </div>
           </div>
@@ -507,6 +535,7 @@ export default function App() {
               connectApp={connectApp}
               isConnecting={isConnecting}
               setIsConnecting={setIsConnecting}
+              setConnection={setConnection}
             />
           )}
         </div>
