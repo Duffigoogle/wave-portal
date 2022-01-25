@@ -5,8 +5,8 @@ import ABI from "./utils/WavePortal.json";
 import HUGGY from "./img/hugggyy.gif";
 import WAVVY from "./img/wavehand.gif";
 import GRANDMAHUG from "./img/sister.svg";
-import HESENDWAVE from "./img/heSendWave.png";
-import SHESENDHUG from "./img/sheSendhug.png";
+import HESENDWAVE from "./img/heSend.png";
+import SHESENDHUG from "./img/sheSend.png";
 import WalletModal from "./components/modal";
 
 export default function App() {
@@ -24,6 +24,8 @@ export default function App() {
   const [isConnected, setIsConnected] = useState(false);
   const [showWalletModal, setShowWalletModal] = useState(false);
   const [currentAccount, setCurrentAccount] = useState("");
+  const [currentNetwork, setCurrentNetwork] = useState("");
+  const [chainId, setChainId] = useState(null);
   const [allWaves, setAllWaves] = useState([]);
   const [allHugs, setAllHugs] = useState([]);
   const [textValue, setTextValue] = useState("");
@@ -46,6 +48,7 @@ export default function App() {
        * Check if we're authorized to access the user's wallet
        */
       const accounts = await ethereum.request({ method: "eth_accounts" });
+     
 
       if (accounts.length !== 0) {
         const account = accounts[0];
@@ -53,6 +56,7 @@ export default function App() {
         setCurrentAccount(account);
         setConnection(false);
         setIsConnected(true);
+        // setCurrentNetwork(chainId);
         getAllWaves();
         getAllHugs();
       } else {
@@ -70,16 +74,17 @@ export default function App() {
     setIsConnecting(true);
   };
 
+  
   /**
    * Implement your connectApp method here
    */
-
   const connectApp = async () => {
     try {
       const { ethereum } = window;
 
       if (!ethereum) {
-        alert("Get MetaMask!");
+        // alert("Get MetaMask!");
+        setIsMetaMaskInstalled(false);
         return;
       }
 
@@ -99,10 +104,10 @@ export default function App() {
     }
   };
 
+  
   /**
    * Implement your wave method/function here
-   */
-
+  */
   const wave = async () => {
     try {
       const { ethereum } = window;
@@ -128,7 +133,7 @@ export default function App() {
         await waveTxn.wait();
         console.log("Mined -- ", waveTxn.hash);
 
-        movingWave();
+        // movingWave();
 
         count = await wavePortalContract.getTotalWaves();
         console.log("Retrieved total wave count...", count.toNumber());
@@ -317,16 +322,16 @@ export default function App() {
     };
   }, []);
 
-  const movingWave = () => {
-    let marginBottom = 0;
-    let marginLeft = 0;
-      setInterval(() => {
-        marginBottom += 10;
-        marginLeft += 4;
-        temple.style.marginBottom = `${marginBottom}px`;
-        temple.style.marginLeft = `${marginLeft}px`;
-      }, 100);
-  }
+  // const movingWave = () => {
+  //   let marginBottom = 0;
+  //   let marginLeft = 0;
+  //     setInterval(() => {
+  //       marginBottom += 10;
+  //       marginLeft += 4;
+  //       temple.style.marginBottom = `${marginBottom}px`;
+  //       temple.style.marginLeft = `${marginLeft}px`;
+  //     }, 100);
+  // }
   /*
    * This runs our function when the page loads.
    */
@@ -335,6 +340,42 @@ export default function App() {
     getAllWaves();
     getAllHugs();
   }, [connect]);
+
+  const onLogout = () => {
+    setIsConnected(false);
+    setCurrentAccount("");
+  }
+
+  useEffect(() => {
+    const handleAccountsChanged = async (accounts) => {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const web3Accounts = await provider.getAccounts();
+      if (accounts.length === 0) {
+        onLogout();
+      } else if (accounts[0] !== currentAccount) {
+        setCurrentAccount(accounts[0]);
+      }
+    };
+
+    const handleChainChanged = async (chainId) => {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const web3ChainId = await provider.getChainId();
+        setChainId(web3ChainId);
+    };
+
+    if (isConnected) {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      provider.on("accountsChanged", handleAccountsChanged);
+      provider.on("chainChanged", handleChainChanged);
+    }
+    return () => {
+     if (isConnected) {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      provider.removeListener("accountsChanged", handleAccountsChanged);
+      provider.removeListener("chainChanged", handleChainChanged);
+     }
+    };
+  }, [isConnected]);
 
   return (
     <>
@@ -345,7 +386,7 @@ export default function App() {
               <a
                 href="https://www.google.com"
                 target="_blank"
-                without
+                without='true'
                 rel="noopener noreferrer"
               >
                 <h3 className="title">
@@ -360,6 +401,10 @@ export default function App() {
                     <p className="acct-text">
                       <span className='span_acct_text'> Wallet Connected</span> <br />{currentAccount?.substring(0, 9)}
                       {"..."}{" "}
+                    </p>
+                    <p className="acct-text">
+                      <span className='span_acct_text'> Network </span>{chainId}
+                  
                     </p>
                 </div>
                 ): (
@@ -513,7 +558,7 @@ export default function App() {
                   <section className='connect_wallet_cont_bottom'>
                     <div className='connect_wallet_img_section'>
                       <div className='img-box img-box-1'>
-                        <img src={HESENDWAVE} alt='send_wave' width='30%'/>
+                        <img src={HESENDWAVE} alt='send_wave' width='40%'/>
                       </div>
                       <div className='img-box img-box-2'>
                         <img src={SHESENDHUG} alt='send_hug'    width='30%' style={{transform: 'scaleX(-1)'}}/>
@@ -543,7 +588,7 @@ export default function App() {
       {!isMetaMaskInstalled && (
         <div>
           <p className="start_page">
-            <a href="https://metamask.io/" target="_blank" rel="noreferrer">
+            <a href="https://metamask.io/" target="_blank" rel="noopener noreferrer">
               Install MetaMask
             </a>
           </p>
